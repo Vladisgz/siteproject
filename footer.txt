@@ -1,0 +1,158 @@
+import React from "react";
+import { paymentLogo, sneakers } from "../assets";
+import { FaFacebookF, FaInstagram } from "react-icons/fa";
+import { MdOutlineContactSupport } from "react-icons/md";
+import { CiDeliveryTruck } from "react-icons/ci";
+import { SiFampay } from "react-icons/si";
+import { BsPersonFill } from "react-icons/bs";
+import { ImGithub } from "react-icons/im";
+import { Link } from "react-router-dom";
+
+const Footer = () => {
+  return (
+    <div className="bg-gray-800 text-[#949494] py-20 font-titleFont">
+      <div className="max-w-screen-xl mx-auto grid sm:grid-cols-4 grid-cols-1">
+        {/* Logo Icon */}
+        {/* Logo Icon start here */}
+        <div className="flex flex-col gap-6">
+          <Link to="/">
+            <img
+              className="w-16"
+              // src={lightLogo}
+              src={sneakers}
+              alt="logo light theme"
+            />
+          </Link>
+          <img className="w-56" src={paymentLogo} alt="payment img" />
+          <div className="mx-2 flex gap-5 text-lg text-gray-400">
+            <a
+              className="hover:text-white hover:scale-125 duration-700 cursor-pointer"
+              href="https://github.com/Vladisgz"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {/* <ImGithub className="hover:text-white duration-300 cursor-pointer" /> */}
+              <ImGithub />
+            </a>
+            <a
+              className="hover:text-white hover:scale-125 duration-700 cursor-pointer"
+              href="https://www.facebook.com/profile.php?id=100006700171814"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <FaFacebookF />
+            </a>
+            <a
+              className="hover:text-white hover:scale-125 duration-700 cursor-pointer"
+              href="https://www.instagram.com/vladiskhorenko/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <FaInstagram />
+            </a>
+          </div>
+          <p className="text-gray-400 text-sm tracking-wide mx-2">
+            Ⓒ 2023 by Vladislav Khorenko
+          </p>
+        </div>
+        {/* Logo Icon end here */}
+
+        {/* Contacts start here */}
+        <div>
+          <h2 className="text-xl font-semibold text-white mb-4">contacts</h2>
+          <div className="text-base flex flex-col gap-2">
+            <p>Samara, Russia</p>
+            {/* <p>Mobile: 89198044708</p> */}
+            <a
+              className="hover:text-white duration-300 cursor-pointer"
+              href="tel:89198044708"
+            >
+              Mobile: +79198044708
+            </a>
+            {/* <p>e-mail: pmvladi@yandex.ru</p> */}
+            <a
+              className="hover:text-white duration-300 cursor-pointer"
+              href="mailto:pmvladi@yandex.ru"
+            >
+              e-mail: pmvladi@yandex.ru
+            </a>
+          </div>
+        </div>
+
+        {/* Contacts end here */}
+
+        {/* Profile start here */}
+
+        <div>
+          <h2 className="text-xl font-semibold text-white mb-4">profile</h2>
+          <div className="flex flex-col gap-2 text-base">
+            <p className="flex items-center gap-3 hover:text-white duration-300 cursor-pointer">
+              <span>
+                <BsPersonFill />
+              </span>
+              my account
+            </p>
+            <p className="flex items-center gap-3 hover:text-white duration-300 cursor-pointer">
+              <span>
+                <SiFampay />
+              </span>
+              checkout
+            </p>
+            <p className="flex items-center gap-3 hover:text-white duration-300 cursor-pointer">
+              <span>
+                <CiDeliveryTruck />
+              </span>
+              order tracking
+            </p>
+            <p className="flex items-center gap-3 hover:text-white duration-300 cursor-pointer">
+              <span>
+                <MdOutlineContactSupport />
+              </span>
+              help & support
+            </p>
+          </div>
+        </div>
+
+        {/* Profile end here */}
+
+        {/* Subscribe start here */}
+
+        <div className="max-w-xl lg:max-w-lg font-titleFont">
+          <h2 className="text-xl font-semibold tracking-tight text-white sm:text-xl ">
+            subscribe to receive new products & newsletter.
+          </h2>
+
+          <div className="mt-6 flex max-w-md gap-x-4">
+            <label htmlFor="email-address" className="sr-only">
+              Email address
+            </label>
+            <input
+              id="email-address"
+              name="email"
+              type="email"
+              autoComplete="email"
+              required
+              className="min-w-0 flex-auto rounded-md border-0 bg-white/5 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+              placeholder="Enter your email"
+            />
+            <button
+              onSubmit={(e) => e.preventDefault()}
+              type="submit"
+              className="flex-none rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 active:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+            >
+              Subscribe
+            </button>
+          </div>
+          <p className="mt-4 text-sm leading-8 text-gray-400">
+            By clicking "Subscribe" you are agreeing to the Terms and
+            Conditions.
+          </p>
+        </div>
+
+        {/* Subscribe end here */}
+      </div>
+    </div>
+  );
+};
+
+export default Footer;

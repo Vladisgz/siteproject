@@ -1,0 +1,46 @@
+{/* <div className="w-full  max-w-full overflow-x-hidden">
+      <div className="w-screen h-[700px] relative">
+        <div
+          style={{
+            transform: `translateX(-${currentSlide * 100}vw)`,
+          }}
+          className="w-[400vw] h-full flex transition-transform duration-1000"
+        >
+          <img
+            className="w-screen h-full object-cover"
+            src={nike}
+            alt="img1"
+            loading="priority"
+          />
+          <img
+            className="w-screen h-full object-cover"
+            src={armani}
+            alt="img2"
+          />
+          <img
+            className="w-screen h-full object-cover"
+            src={chromeh}
+            alt="img3"
+          />
+          <img
+            className="w-screen h-full object-cover"
+            src={burberry}
+            alt="img4"
+          />
+        </div>
+        <div className="absolute w-fit left-0 right-0 mx-auto flex gap-8 bottom-40">
+          <div
+            onClick={prevSlide}
+            className="w-14 h-14 border-[1px] rounded-full text-slate-700 border-slate-700 flex items-center justify-center hover:cursor-pointer hover:bg-gray-700 hover:border-gray-700 hover:text-white active:bg-gray-900 duration-300"
+          >
+            <BsArrowLeft />
+          </div>
+          <div
+            onClick={nextSlide}
+            className="w-14 h-14 border-[1px] rounded-full text-slate-700 border-slate-700 flex items-center justify-center hover:cursor-pointer hover:bg-gray-700 hover:border-gray-700 hover:text-white active:bg-gray-900 duration-300"
+          >
+            <BsArrowRight />
+          </div>
+        </div>
+      </div>
+    </div> */}
