@@ -46,21 +46,15 @@ export const coffeeSlice = createSlice({
         item.quantity--;
       }
     },
-
-    // пользователи начало
-
     addUser: (state, action) => {
       state.userInfo = action.payload;
     },
     removeUser: (state) => {
       state.userInfo = null;
     },
-
-    // пользователи конец
   },
 });
 
-// export const { addToCart } = coffeeSlice.actions;
 export const {
   addToCart,
   deleteItem,

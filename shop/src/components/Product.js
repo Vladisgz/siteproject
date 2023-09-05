@@ -1,18 +1,43 @@
 import React, { useEffect, useState } from "react";
-// import { MdOutlineStar } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { useLocation, Link } from "react-router-dom";
 import { addToCart } from "../redux/coffeeSlice";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { HiOutlineArrowLeft } from "react-icons/hi";
 
 const Product = () => {
   const dispatch = useDispatch();
 
   const [details, setDetails] = useState({});
-  // ________
-  //  Счетчик
+
   let [baseQ, setBaseQ] = useState(1);
+
+  const [itemsAdded, setItemsAdded] = useState(0);
+
+  const handleButtonClick = () => {
+    dispatch(
+      addToCart({
+        _id: details._id,
+        title: details.title,
+        image: details.image,
+        price: details.price,
+        quantity: baseQ,
+        description: details.description,
+      }),
+    );
+
+    setItemsAdded(itemsAdded + baseQ);
+
+    toast.success(`${details.title} is added`, {
+      position: "top-center",
+      autoClose: 50,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      theme: "light",
+    });
+  };
 
   const Location = useLocation();
 
@@ -107,9 +132,9 @@ const Product = () => {
               </span>
             </div>
             <p class="leading-relaxed">{details.description}</p>
-            <div class="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
-              <div class="flex items-center justify-between border text-gray-500 gap-4 p-3 rounded-lg shadow-lg">
-                <span class="mr-3 text-sm">Quantity</span>
+            <div class="flex mt-6 items-center justify-start pb-5 border-b-2 border-gray-100 mb-5 gap-4">
+              <div class="flex items-center sm:justify-between justify-start border text-gray-500 p-3 rounded-lg shadow-lg">
+                <span class="pr-3 text-sm">Quantity</span>
                 <div className="flex items-center text-sm font-semibold gap-4">
                   <button
                     onClick={() =>
@@ -129,20 +154,9 @@ const Product = () => {
                 </div>
               </div>
 
-              <div class="flex ml-6 items-center">
+              <div class="flex items-center justify-start">
                 <button
-                  onClick={() =>
-                    dispatch(
-                      addToCart({
-                        _id: details._id,
-                        title: details.title,
-                        image: details.image,
-                        price: details.price,
-                        quantity: baseQ,
-                        description: details.description,
-                      }),
-                    ) & toast.success(`${details.title} is added`)
-                  }
+                  onClick={handleButtonClick}
                   className="bg-black opacity-90 text-white py-2 px-5 active:bg-gray-800 rounded-lg shadow-lg"
                 >
                   add to cart
@@ -168,18 +182,6 @@ const Product = () => {
           </div>
         </div>
       </div>
-      {/* <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      /> */}
     </section>
   );
 };

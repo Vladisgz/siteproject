@@ -6,6 +6,7 @@ import cartImg from "./cart.png";
 import paymentLogo from "./payment.png";
 import userLogo from "./userLogo.JPG";
 import sneakers from "./sneakers.png";
+import empty from "./emptyCart.png";
 import carry from "./forShops/Кэрри-Polyana.png";
 import twinz from "./forShops/Twinz-Coffee.png";
 import starsCoffee from "./forShops/Stars-Coffee.png";
@@ -72,4 +73,5 @@ export {
   iphone14,
   mac,
   star,
+  empty,
 };

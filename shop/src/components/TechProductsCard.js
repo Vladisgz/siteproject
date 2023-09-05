@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { BsArrowRight } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../redux/coffeeSlice";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 const TechProductsCard = ({ product }) => {
   const dispatch = useDispatch();
@@ -26,11 +26,9 @@ const TechProductsCard = ({ product }) => {
 
   return (
     <div className="relative">
-      {/* <div className="h-full p-3 m-auto bg-white shadow-lg rounded-xl"> */}
       <div className="p-3 h-full w-96 m-auto bg-white shadow-lg rounded-xl">
         <div
           onClick={handleDetails}
-          // className="p-3 w-full h-60 cursor-pointer overflow-hidden "
           className="p-3 w-full h-96 cursor-pointer overflow-hidden"
         >
           <img
@@ -69,7 +67,17 @@ const TechProductsCard = ({ product }) => {
                       quantity: 1,
                       description: product.description,
                     }),
-                  ) & toast.success(`${product.title} is added `)
+                  ) &
+                  toast.success(`${product.title} is added`, {
+                    position: "top-center",
+                    autoClose: 50,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                  })
                 }
                 className="absolute z-20 w-[100px] text-gray-500 hover:text-gray-900 flex items-center gap-1 top-0 transform -translate-x-32 group-hover:translate-x-0 transition-transform cursor-pointer duration-1000"
               >
@@ -84,18 +92,6 @@ const TechProductsCard = ({ product }) => {
             <p className="text-slate-400 text-sm">{product.category}</p>
           </div>
         </div>
-        <ToastContainer
-          position="top-left"
-          autoClose={2000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        />
       </div>
     </div>
   );

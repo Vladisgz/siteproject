@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   GoogleAuthProvider,
   getAuth,
@@ -33,30 +33,23 @@ const Nav = () => {
   // Login and logout
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
 
   const handleGoogleLogin = (e) => {
     e.preventDefault();
     signInWithPopup(auth, provider)
-      .then(
-        // console.log(auth);
-        (result) => {
-          const user = result.user;
-          dispatch(
-            addUser({
-              _id: user.uid,
-              name: user.displayName,
-              email: user.email,
-              image: user.photoURL,
-            }),
-          );
-          setTimeout(() => {
-            navigate("/shop");
-          }, 1000);
-        },
-      )
+      .then((result) => {
+        const user = result.user;
+        dispatch(
+          addUser({
+            _id: user.uid,
+            name: user.displayName,
+            email: user.email,
+            image: user.photoURL,
+          }),
+        );
+      })
       .catch((error) => console.log(error));
   };
 
@@ -78,10 +71,10 @@ const Nav = () => {
           <img
             src={sneakers}
             alt="dark logo"
-            className="sm:h-14 sm:w-14 h-9 mr-3"
+            className="sm:h-14 sm:w-14 h-10 mr-3"
           />
         </Link>
-        <div className="flex items-center md:order-2">
+        <div className="flex items-center md:order-2 ">
           <div className="relative">
             <button
               id="dropdownUserAvatarButton"
@@ -101,28 +94,32 @@ const Nav = () => {
             {isUserOpen && (
               <div
                 id="dropdownAvatar"
-                className="z-10 absolute right-0 mt-2 bg-white divide-y divide-gray-100 rounded-lg shadow w-44"
+                className="z-50 absolute right-0 mt-2 bg-white divide-y divide-gray-100 rounded-lg shadow w-44"
               >
-                <div className="px-4 py-3 text-sm text-gray-900">
-                  {userInfo ? userInfo.name : ""}
+                <div className="px-4 py-3">
+                  <span className=" block text-sm text-gray-900">
+                    {userInfo ? userInfo.name : "Welcone here"}
+                  </span>
+                  <span className=" block  text-sm text-gray-600">
+                    {userInfo ? userInfo.email : ""}
+                  </span>
                 </div>
-                <div className="px-4 py-3 text-sm text-gray-900">
-                  {userInfo ? userInfo.email : ""}
-                </div>
-
                 <div className="py-2">
-                  <p
-                    onClick={handleGoogleLogin}
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:cursor-pointer"
-                  >
-                    Log in
-                  </p>
-                  <p
-                    onClick={handleSignout}
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:cursor-pointer"
-                  >
-                    Sign out
-                  </p>
+                  {userInfo ? (
+                    <p
+                      onClick={handleSignout}
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:cursor-pointer"
+                    >
+                      Sign out
+                    </p>
+                  ) : (
+                    <p
+                      onClick={handleGoogleLogin}
+                      className=" px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:cursor-pointer"
+                    >
+                      Log in
+                    </p>
+                  )}
                 </div>
               </div>
             )}
@@ -160,6 +157,7 @@ const Nav = () => {
           id="navbar-default"
         >
           <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border bg-white rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0">
+            {/* <ul class="flex flex-col font-medium p-4 md:p-0 mt-4  md:flex-row md:space-x-8 md:mt-0 "> */}
             <Link to="/">
               <li className=" block py-2 pl-3 pr-4 md:p-0 text-base text-gray-700 hover:text-slate-800  md:text-slate-700   md:hover:text-slate-800 md:hover:scale-110 md:hover:underline md:underline-offset-4 md:text-decoration-[2px] md:duration-500 md:cursor-pointer">
                 Home
@@ -167,7 +165,6 @@ const Nav = () => {
             </Link>
             <Link to="/shop">
               <li className=" block py-2 pl-3 pr-4 md:p-0 text-base text-gray-700 hover:text-slate-800  md:text-slate-700   md:hover:text-slate-800 md:hover:scale-110 md:hover:underline md:underline-offset-4 md:text-decoration-[2px] md:duration-500 md:cursor-pointer">
-                {/* <li className=" block py-2 pl-3 pr-4 md:p-0 text-base font-bold font-titleFont text-slate-600 hover:text-slate-800 hover:underline hover:underline-offset-4 duration-400 md:text-slate-700   md:hover:text-slate-800 md:hover:scale-110 md:hover:underline md:underline-offset-4 md:text-decoration-[2px] md:duration-500 md:cursor-pointer"> */}
                 Shop Store
               </li>
             </Link>
@@ -218,14 +215,14 @@ const Nav = () => {
       </div>
       <ToastContainer
         position="top-left"
-        autoClose={2000}
-        hideProgressBar={false}
+        autoClose={50}
+        hideProgressBar={true}
         newestOnTop={false}
         closeOnClick
         rtl={false}
-        pauseOnFocusLoss
+        pauseOnFocusLoss={false}
         draggable
-        pauseOnHover
+        pauseOnHover={false}
         theme="light"
       />
     </nav>

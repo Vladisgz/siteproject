@@ -1,116 +1,33 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { ToastContainer, toast } from "react-toastify";
+import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+
+import {
+  decrementQuantity,
+  deleteItem,
+  incrementQuantity,
+  resetCart,
+} from "../redux/coffeeSlice";
+
+import { toast } from "react-toastify";
 import StripeCheckout from "react-stripe-checkout";
 import axios from "axios";
 
-import CartItem from "../components/CartItem";
+import { HiOutlineArrowLeft } from "react-icons/hi";
+import { MdClose } from "react-icons/md";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
-// const Cart = () => {
-//   const productData = useSelector((state) => state.coffee.productData);
-//   const userInfo = useSelector((state) => state.coffee.userInfo);
-
-//   const [totalPrice, setTotalPrice] = useState("");
-//   const [payNow, setPayNow] = useState(false);
-
-//   useEffect(() => {
-//     let price = 0;
-//     productData.forEach((item) => {
-//       price += item.price * item.quantity;
-//     });
-//     setTotalPrice(price.toFixed(2));
-//   }, [productData]);
-
-//   const handleCheckout = () => {
-//     if (userInfo) {
-//       setPayNow(true);
-//     } else {
-//       toast.error("Please sign in for Checkout");
-//     }
-//   };
-
-//   const payment = async (token) => {
-//     try {
-//       await axios.post("http://localhost:3001/pay", {
-//         amount: totalPrice * 100,
-//         token: token,
-//       });
-//     } catch (error) {
-//       toast.error("Payment failed. Please try again.");
-//     }
-//   };
-
-//   return (
-//     <div>
-//       <img
-//         className="w-full h-60 object-cover"
-//         src="https://media.gq-magazine.co.uk/photos/5d13a9c2976fa37177f3b040/16:9/w_2560%2Cc_limit/hp-gq-6dec18_istock_.jpg"
-//         alt="Background in the cart"
-//       />
-//       <div className="mx-auto max-w-screen-xl justify-center py-20 md:flex md:space-x-6 xl:px-0">
-//         <CartItem />
-//         <div className="w-1/3 bg-[#fafafa] py-6 px-4">
-//           <div className="flex flex-col gap-6 border-b-[1px] border-b-gray-400 pb-6">
-//             <h2 className="text-2xl font-medium">Cart Totals</h2>
-//             <p className="flex items-center gap-4 text-base">
-//               Subtotal
-//               <span className="font-titleFont font-bold text-lg">
-//                 $ {totalPrice}
-//               </span>
-//             </p>
-//             <p className="flex items-center gap-4 text-base">
-//               Shipping
-//               <span>We deliver anywhere in the world</span>
-//             </p>
-//           </div>
-//           <p className="font-titleFont font-semibold flex justify-between mt-6">
-//             Total <span className="text-xl font-bold">$ {totalPrice}</span>
-//           </p>
-//           <button
-//             onClick={handleCheckout}
-//             className="text-base bg-black text-white w-full py-3 mt-6 hover:bg-gray-800 duration-300"
-//           >
-//             Proceed to Checkout
-//           </button>
-//           {payNow && (
-//             <div className="w-full mt-6 flex items-center justify-center">
-//               <StripeCheckout
-//                 stripeKey="pk_test_..."
-//                 name="Coffee Online"
-//                 amount={totalPrice * 100}
-//                 label="Pay to Vladis"
-//                 description={`Your Payment amount is $${totalPrice}`}
-//                 token={payment}
-//                 email={userInfo.email}
-//               />
-//             </div>
-//           )}
-//         </div>
-//       </div>
-//       <ToastContainer
-//         position="top-left"
-//         autoClose={2000}
-//         hideProgressBar={false}
-//         newestOnTop={false}
-//         closeOnClick
-//         rtl={false}
-//         pauseOnFocusLoss
-//         draggable
-//         pauseOnHover
-//         theme="light"
-//       />
-//     </div>
-//   );
-// };
-
-// export default Cart;
+import { empty } from "../assets";
 
 const Cart = () => {
+  const dispatch = useDispatch();
+
   const productData = useSelector((state) => state.coffee.productData);
   const userInfo = useSelector((state) => state.coffee.userInfo);
 
-  const [totalPrice, setTotalPrice] = useState("");
+  const [totalPrice, setTotalPrice] = useState(0);
   const [payNow, setPayNow] = useState(false);
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
 
   useEffect(() => {
     let price = 0;
@@ -121,82 +38,269 @@ const Cart = () => {
     setTotalPrice(price.toFixed(2));
   }, [productData]);
 
+  const payment = async (token) => {
+    try {
+      await axios.post("http://localhost:3001/pay", {
+        amount: parseFloat(totalPrice) * 100,
+        token: token,
+      });
+
+      toast.success("Payment successful!", {
+        position: "top-center",
+        autoClose: 50,
+      });
+      dispatch(resetCart());
+      setPaymentSuccess(true);
+    } catch (error) {
+      console.log("Payment error with: ", error);
+    }
+  };
   const handleCheckout = () => {
     if (userInfo) {
       setPayNow(true);
     } else {
-      toast.error("Please sign in for Checkout");
+      toast.error("Please sign in for Checkout", {
+        position: "top-center",
+        autoClose: 50,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 
-  const payment = async (token) => {
-    await axios.post("http://localhost:3001/pay", {
-      amount: totalPrice * 100,
-      token: token,
-    });
-  };
+  if (paymentSuccess) {
+    // dispatch(resetCart());
+
+    return (
+      <div class="mx-auto max-w-screen-xl justify-center py-20 md:flex  md:space-x-1 px-4">
+        <div className="w-full">
+          <svg
+            viewBox="0 0 24 24"
+            class="text-green-600 w-16 h-16 mx-auto my-6"
+          >
+            <path
+              fill="currentColor"
+              d="M12,0A12,12,0,1,0,24,12,12.014,12.014,0,0,0,12,0Zm6.927,8.2-6.845,9.289a1.011,1.011,0,0,1-1.43.188L5.764,13.769a1,1,0,1,1,1.25-1.562l4.076,3.261,6.227-8.451A1,1,0,1,1,18.927,8.2Z"
+            ></path>
+          </svg>
+          <div class="text-center">
+            <h3 class="md:text-2xl text-lg text-slate-900 font-semibold font-bodyFont text-center">
+              Payment Done!
+            </h3>
+            <p class="text-slate-600 my-4 font-titleFont md:text-xl text-base">
+              Thank you for completing your secure online payment.
+            </p>
+            <p className="font-titleFont md:text-xl text-lg text-slate-600">
+              {" "}
+              Have a great day!{" "}
+            </p>
+            <div class="mt-6 text-center font-titleFont">
+              <Link to="/shop">
+                <button
+                  className="px-8 py-2.5 text-base font-semibold font-titleFont
+                    tracking-wider text-white shadow-lg transition-colors
+                    transform duration-500 md:w-auto md:mx-4 focus:outline-none
+                    bg-indigo-600 rounded-lg hover:bg-indigo-500
+                    active:bg-indigo-600 focus-visible:outline
+                    focus-visible:outline-2 focus-visible:outline-offset-2
+                    focus-visible:outline-indigo-500"
+                >
+                  GO BACK
+                </button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div>
-      <img
-        className="w-full h-60 object-cover"
-        src="https://media.gq-magazine.co.uk/photos/5d13a9c2976fa37177f3b040/16:9/w_2560%2Cc_limit/hp-gq-6dec18_istock_.jpg"
-        alt="фоновое в корзине"
-      />
-      {/* <div className="max-w-screen-xl mx-auto py-20 flex"> */}
-      <div class="mx-auto max-w-screen-xl justify-center py-20 md:flex md:space-x-6 xl:px-0">
-        <CartItem />
-        <div className="w-1/3 bg-[#fafafa] py-6 px-4">
-          <div className="flex flex-col gap-6 border-b-[1px] border-b-gray-400 pb-6">
-            <h2 className="text-2xl font-medium">cart totals</h2>
-            <p className="flex items-center gap-4 text-base">
-              Subtotal
-              <span className="font-titleFont font-bold text-lg">
-                $ {totalPrice}
-              </span>
-            </p>
-            <p className="flex items-center gap-4 text-base">
-              Shipping
-              {/* <span className="font-titleFont text-lg"> */}
-              <span>We deliver anywhere in the world</span>
-            </p>
-          </div>
-          <p className="font-titleFont font-semibold flex justify-between mt-6">
-            Total <span className="text-xl font-bold">$ {totalPrice}</span>
-          </p>
-          <button
-            onClick={handleCheckout}
-            className="text-base bg-black text-white w-full py-3 mt-6 hover:bg-gray-800 duration-300"
-          >
-            proceed to checkout
-          </button>
-          {payNow && (
-            <div className="w-full mt-6 flex items-center justify-center">
-              <StripeCheckout
-                stripeKey="pk_test_51NVtRQJW0Rf4zOPEhVIM8eJn4ISMp1XUStYN4iJSc6sNKu0TzylycYV0S9id4qapUdO9NLQvMA0IoddHXmW0U2Lp00oyZr643i"
-                name="Coffee Online"
-                amount={totalPrice * 100}
-                label="Pay to Vladis"
-                description={`Your Payment amount is $${totalPrice}`}
-                token={payment}
-                email={userInfo.email}
-              />
+      {productData.length > 0 ? (
+        <div class="mx-auto max-w-screen-xl justify-center py-20 md:flex  md:space-x-1 px-4">
+          <div className="w-full md:w-2/3 pr-10">
+            <div className="w-full flex justify-between ">
+              <h2 className="font-titleFont sm:text-2xl text-xl mb-2">
+                Shopping cart
+              </h2>
+
+              <button
+                onClick={() => dispatch(resetCart())}
+                className="text-slate-400 hover:text-slate-800 active:text-black duration-300 mb-2"
+              >
+                <span className="flex items-center gap-1">
+                  Reset Cart <RiDeleteBin6Line className="scale-105" />
+                </span>
+              </button>
             </div>
-          )}
+            <div>
+              {productData.map((item) => (
+                <ul
+                  key={item._id}
+                  className="w-full flex flex-col divide-y divide-gray-700"
+                >
+                  <li className="flex flex-col py-4 px-4 sm:flex-row sm:justify-between border rounded-xl shadow-lg mb-4">
+                    <div className="flex w-full space-x-3 sm:space-x-4">
+                      <img
+                        className="flex-shrink-0 object-cover sm:w-40 sm:h-40 w-32 h-32 rounded-lg outline-none"
+                        src={item.image}
+                        alt="prodImg"
+                      />
+                      <div className="flex flex-col justify-between w-full ">
+                        <div className="flex justify-between w-full">
+                          <div className="space-y-2">
+                            <h3 className="sm:text-base text-sm font-bodyFont font-medium">
+                              {item.title.substring(0, 40)}
+                            </h3>
+                            <p className="sm:text-base text-sm text-slate-700 font-titleFont">
+                              $ {item.price.toFixed(2)}
+                            </p>
+                            <div className="flex sm:text-base text-xs text-slate-600 gap-1 items-center justify-start px-1 py-2">
+                              <span className=" text-sm">Quantity:</span>
+                              <span
+                                onClick={() =>
+                                  dispatch(
+                                    decrementQuantity({
+                                      _id: item._id,
+                                      title: item.title,
+                                      image: item.image,
+                                      price: item.price,
+                                      quantity: 1,
+                                      description: item.description,
+                                    }),
+                                  )
+                                }
+                                className="border-inherit rounded-full w-5 h-5 font-titleFont text-lg active:text-2xl cursor-pointer duration-500 hover:bg-slate-200 active:bg-slate-400 flex items-center justify-center "
+                              >
+                                -
+                              </span>
+                              <span className="font-titleFont sm:text-base text-sm items-center justify-center active">
+                                {item.quantity}
+                              </span>
+                              <span
+                                onClick={() =>
+                                  dispatch(
+                                    incrementQuantity({
+                                      _id: item._id,
+                                      title: item.title,
+                                      image: item.image,
+                                      price: item.price,
+                                      quantity: 1,
+                                      description: item.description,
+                                    }),
+                                  )
+                                }
+                                className="border-inherit rounded-full w-5 h-5 font-titleFont text-lg active:text-2xl cursor-pointer duration-500 hover:bg-slate-200 active:bg-slate-400 flex items-center justify-center "
+                              >
+                                +
+                              </span>
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <button
+                              onClick={() =>
+                                dispatch(deleteItem(item._id)) &
+                                toast.error(`${item.title} is removed`, {
+                                  position: "top-center",
+                                  autoClose: 50,
+                                  hideProgressBar: true,
+                                  closeOnClick: true,
+                                  pauseOnHover: false,
+                                  draggable: true,
+                                  theme: "light",
+                                })
+                              }
+                              type="button"
+                            >
+                              <MdClose className="w-6 h-6  text-slate-500 hover:text-slate-900 active:text-black" />
+                            </button>
+                          </div>
+                        </div>
+                        <p className="sm:text-lg text-base text-slate-700 font-titleFont border-t pt-3">
+                          $ {(item.quantity * item.price).toFixed(2)}
+                        </p>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              ))}
+            </div>
+            <Link to="/shop">
+              <button className="md:ml-0 mt-2 flex items-center gap-1 text-gray-400 hover:text-black duration-300 mb-4 md:mb-0">
+                <span>
+                  <HiOutlineArrowLeft />
+                </span>
+                back to shop
+              </button>
+            </Link>
+          </div>
+          <div className="w-full md:w-1/3 h-full sm:mt-10 mt-0 bg-[#fafafa] rounded-xl py-6 px-4">
+            <div className="flex flex-col gap-6 border-b-[1px] border-b-gray-400 pb-6">
+              <h2 className="text-2xl font-medium">cart totals</h2>
+              <p className="flex items-center gap-4 text-base">
+                Subtotal
+                <span className="font-titleFont font-bold text-lg">
+                  $ {totalPrice}
+                </span>
+              </p>
+              <p className="flex items-center gap-4 text-base">
+                Shipping
+                <span>We deliver anywhere in the world</span>
+              </p>
+            </div>
+            <p className="font-titleFont font-semibold flex justify-between mt-6">
+              Total <span className="text-xl font-bold">$ {totalPrice}</span>
+            </p>
+            <button
+              onClick={handleCheckout}
+              className="text-base bg-black rounded-lg text-white w-full py-3 mt-6 hover:bg-gray-800 duration-300"
+            >
+              proceed to checkout
+            </button>
+            {payNow && (
+              <div className="w-full mt-6 flex items-center justify-center">
+                <StripeCheckout
+                  stripeKey="pk_test_51NVtRQJW0Rf4zOPEhVIM8eJn4ISMp1XUStYN4iJSc6sNKu0TzylycYV0S9id4qapUdO9NLQvMA0IoddHXmW0U2Lp00oyZr643i"
+                  name="Coffee Online"
+                  amount={parseFloat(totalPrice) * 100}
+                  label="Pay to Vladis"
+                  description={`Your Payment amount is $${totalPrice}`}
+                  token={payment}
+                  email={userInfo.email}
+                />
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-      <ToastContainer
-        position="top-left"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
+      ) : (
+        <div class="mx-auto max-w-screen-xl justify-center py-20 md:flex  md:space-x-1 px-4">
+          <div className="w-full md:w-2/3 pr-10">
+            <div className="flex flex-col justify-center items-center mt-2 ">
+              <img src={empty} alt="" className="w-50 h-50" />
+              <div className="sm:text-xl text-lg font-titleFont text-center">
+                Your cart is empty
+              </div>
+              <span className="sm:text-lg text-base font-titleFont font-light text-slate-600 text-center">
+                You have no stuff in shopping cart.
+              </span>
+              <span className="sm:text-lg text-base font-titleFont font-light text-slate-600 text-center">
+                Back to shop and buy something.
+              </span>
+              <button className="px-5 py-2.5 flex gap-2 justify-center items-center mt-4 md:mb-0 text-sm text-white font-titleFont shadow-sm tracking-wider transition-colors transform duration-500 focus:outline-none bg-indigo-600 rounded-lg  hover:bg-indigo-500 active:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                <span>
+                  <HiOutlineArrowLeft />
+                </span>
+                Continue shopping
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { MdOutlineStar } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { useLocation, Link } from "react-router-dom";
 import { addToCart } from "../redux/coffeeSlice";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { HiOutlineArrowLeft } from "react-icons/hi";
 
-const Tech = () => {
+const Product = () => {
   const dispatch = useDispatch();
 
   const [details, setDetails] = useState({});
-  // ________
-  //  Счетчик
+
   let [baseQ, setBaseQ] = useState(1);
 
   const Location = useLocation();
@@ -21,113 +19,164 @@ const Tech = () => {
   }, [Location.state.item]);
 
   return (
-    <div>
-      <div className="max-w-screen-xl mx-auto my-10 flex gap-10">
-        <div className="w-2/5 relative">
+    <section class="text-gray-600 body-font overflow-hidden">
+      <div class="container px-5 py-24 mx-auto">
+        <div class="lg:w-4/5 mx-auto flex flex-wrap">
           <img
-            className="w-full h-[550px] object-cover"
+            alt="ecommerce"
+            class="lg:w-1/2 w-full lg:h-[550px] h-96 object-cover object-center rounded-xl shadow-xl"
             src={details.image}
-            alt="productImg"
           />
-          <div className="absolute top-4 right-0">
+          <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
             {details.isNew && (
-              <p className="bg-black text-white font-semibold font-titleFont px-8 py-1">
-                Sale
-              </p>
+              <h2 class="text-sm title-font text-gray-500 tracking-widest">
+                SALE
+              </h2>
             )}
-          </div>
-        </div>
-        <div className="w-3/5 flex flex-col justify-center gap-12 ">
-          <div>
-            <h2 className="text-4xl font-semibold">{details.title}</h2>
-            <div className="flex items-center gap-4 mt-3">
-              <p className="font-base line-through text-gray-500">
-                ${details.oldPrice}
-              </p>
-              <p className="text-2xl font-medium text-gray-900">
-                ${details.price}
-              </p>
+            <h1 class="text-gray-900 text-3xl font-bodyFont font-medium mb-1">
+              {details.title}
+            </h1>
+            <div className="itens-center flex gap-4 ">
+              <span class="font-titleFont font-base text-xl text-gray-500 line-through">
+                $ {details.oldPrice}
+              </span>
+              <span class="font-titleFont font-medium text-xl text-gray-900">
+                $ {details.price}
+              </span>
             </div>
-          </div>
-          <div className="flex items-center gap-2 text-base">
-            <div className="flex">
-              <MdOutlineStar />
-              <MdOutlineStar />
-              <MdOutlineStar />
-              <MdOutlineStar />
-              <MdOutlineStar />
+            <div class="flex mb-4">
+              <span class="flex items-center">
+                <svg
+                  fill="currentColor"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  class="w-4 h-4 text-indigo-500"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                </svg>
+                <svg
+                  fill="currentColor"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  class="w-4 h-4 text-indigo-500"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                </svg>
+                <svg
+                  fill="currentColor"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  class="w-4 h-4 text-indigo-500"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                </svg>
+                <svg
+                  fill="currentColor"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  class="w-4 h-4 text-indigo-500"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                </svg>
+                <svg
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  class="w-4 h-4 text-indigo-500"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                </svg>
+                <span class="text-gray-600 ml-3">4 Reviews</span>
+              </span>
             </div>
-            <p className="text-xs text-gray-500">(1 Customer review)</p>
-          </div>
-          <p className="text-base text-gray-500 -mt-3">{details.description}</p>
-          <div className="flex gap-4">
-            <div className="w-52 flex items-center justify-between border text-gray-500 gap-4 p-3">
-              <p className="text-sm">Quantity</p>
-              <div className="flex items-center text-sm font-semibold gap-4">
+            <p class="leading-relaxed">{details.description}</p>
+            <div class="flex mt-6 items-center justify-start pb-5 border-b-2 border-gray-100 mb-5 gap-4">
+              <div class="flex items-center sm:justify-between justify-start border text-gray-500 p-3 rounded-lg shadow-lg">
+                <span class="pr-3 text-sm">Quantity</span>
+                <div className="flex items-center text-sm font-semibold gap-4">
+                  <button
+                    onClick={() =>
+                      setBaseQ(baseQ === 1 ? (baseQ = 1) : baseQ - 1)
+                    }
+                    className="h-5 px-2 font-normal text-lg flex items-center justify-center cursor-pointer active:text-2xl duration-500"
+                  >
+                    -
+                  </button>
+                  <span>{baseQ}</span>
+                  <button
+                    onClick={() => setBaseQ(baseQ + 1)}
+                    className="h-5 px-2 font-normal text-lg flex items-center justify-center cursor-pointer active:text-2xl duration-500"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-start">
                 <button
-                  // onClick={() => setBaseQ(baseQ - 1)}
                   onClick={() =>
-                    setBaseQ(baseQ === 1 ? (baseQ = 1) : baseQ - 1)
+                    dispatch(
+                      addToCart({
+                        _id: details._id,
+                        title: details.title,
+                        image: details.image,
+                        price: details.price,
+                        quantity: baseQ,
+                        description: details.description,
+                      }),
+                    ) &
+                    toast.success(`${details.title} is added`, {
+                      position: "top-center",
+                      autoClose: 50,
+                      hideProgressBar: true,
+                      closeOnClick: true,
+                      pauseOnHover: false,
+                      draggable: true,
+                      theme: "light",
+                    })
                   }
-                  className="border h-5 px-2 font-normal text-lg flex items-center justify-center hover:bg-gray-700 hover:text-white cursor-pointer duration-300 active:bg-black"
+                  className="bg-black opacity-90 text-white py-2 px-5 active:bg-gray-800 rounded-lg shadow-lg"
                 >
-                  -
-                </button>
-                <span>{baseQ}</span>
-                <button
-                  onClick={() => setBaseQ(baseQ + 1)}
-                  className="border h-5 px-2 font-normal text-lg flex items-center justify-center hover:bg-gray-700 hover:text-white cursor-pointer duration-300 active:bg-black"
-                >
-                  +
+                  add to cart
                 </button>
               </div>
             </div>
-            <button
-              onClick={() =>
-                dispatch(
-                  addToCart({
-                    _id: details._id,
-                    title: details.title,
-                    image: details.image,
-                    price: details.price,
-                    quantity: baseQ,
-                    description: details.description,
-                  }),
-                ) & toast.success(`${details.title} is added`)
-              }
-              className="bg-black text-white py-3 px-6 active:bg-gray-800"
-            >
-              add to cart
-            </button>
+            <div class="flex flex-col gap-10">
+              <p class="text-base text-gray-500">
+                Category: {""}
+                <span className="font-medium capitalize">
+                  {details.category}
+                </span>
+              </p>
+              <Link to="/shop">
+                <button className="flex items-center gap-1 text-gray-400 hover:text-black duration-300">
+                  <span>
+                    <HiOutlineArrowLeft />
+                  </span>
+                  back to shop
+                </button>
+              </Link>
+            </div>
           </div>
-          <p className="text-base text-gray-500">
-            Category:
-            <span className="font-medium capitalize"> {details.category}</span>
-          </p>
-          <Link to="/tech">
-            <button className="flex items-center gap-1 text-gray-400 hover:text-black duration-300">
-              <span>
-                <HiOutlineArrowLeft />
-              </span>
-              back to shop
-            </button>
-          </Link>
         </div>
       </div>
-      {/* <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      /> */}
-    </div>
+    </section>
   );
 };
 
-export default Tech;
+export default Product;

@@ -17,11 +17,18 @@ app.get("/", function (req, res) {
 
 app.post("/pay", async (req, res) => {
   console.log(req.body.token);
-  await Stripe.charges.create({
-    source: req.body.token.id,
-    amount: req.body.amount,
-    currency: "usd",
-  });
+
+  try {
+    await Stripe.charges.create({
+      source: req.body.token.id,
+      amount: req.body.amount,
+      currency: "usd",
+    });
+
+    res.status(200).json({ success: true, message: "Paynemt succeeded" });
+  } catch {
+    res.status(500).json({ success: false, message: "Payment failed" });
+  }
 });
 
 app.listen(port, () => {

@@ -5,8 +5,6 @@ import { iphone, macbook, dyson, appleWatch } from "../assets";
 const Banner = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // const data = [{ iphone, macbook, dyson, appleWatch }];
-
   const prevSlide = () => {
     setCurrentSlide(currentSlide === 0 ? 3 : (prev) => prev - 1);
   };

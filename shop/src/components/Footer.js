@@ -97,7 +97,6 @@ const Footer = () => {
           <Link to="/">
             <img
               className="w-auto h-10 lg:h-14"
-              // src={lightLogo}
               src={sneakers}
               alt="logo light theme"
             />
@@ -109,7 +108,6 @@ const Footer = () => {
               target="_blank"
               rel="noreferrer"
             >
-              {/* <ImGithub className="hover:text-white duration-300 cursor-pointer" /> */}
               <ImGithub />
             </a>
             <a

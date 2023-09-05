@@ -1,12 +1,8 @@
 import React from "react";
-import { back } from "../assets";
+// import { back } from "../assets";
 
-const links = [
-  { name: "To shopping", href: "/shop" },
-  // { name: "Internship program", href: "#" },
-  // { name: "Our values", href: "#" },
-  // { name: "Meet our leadership", href: "#" },
-];
+const links = [{ name: "To shopping", href: "/shop" }];
+
 const stats = [
   { name: "Offices worldwide", value: "13" },
   { name: "Reviews", value: "999+" },
@@ -17,12 +13,6 @@ const stats = [
 const Home = () => {
   return (
     <div className="relative isolate overflow-hidden bg-white py-24 sm:py-32 border-b-1 border-b-inherit">
-      <img
-        // src="https://wokecustoms.com/cdn/shop/products/CustomBlackAirForce1-Bluecartoonoutline.jpg?v=1671630959&width=1946"
-        src={back}
-        alt=""
-        className="absolute inset-0 -z-10 h-50% w-full object-cover object-right md:object-center"
-      />
       <div
         className="hidden sm:absolute sm:-top-10 sm:right-1/2 sm:-z-10 sm:mr-10 sm:block sm:transform-gpu sm:blur-3xl"
         aria-hidden="true"

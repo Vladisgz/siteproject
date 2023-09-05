@@ -35,7 +35,6 @@ const Blog = () => {
           <img
             alt=""
             className="w-full h-full rounded shadow-lg  min-h-48 bg-gray-500 "
-            // src={nike1}
             src={nike_shoes}
           />
           <img

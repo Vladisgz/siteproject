@@ -1,9 +1,7 @@
 import React from "react";
-// import Title from "./Title";
 import { carry, twinz, coffeeBean, starsCoffee } from "../assets";
 import ShopsCard from "../components/ShopsCard";
 import BannerCoffee from "../components/BannerCoffee";
-// import {TbCircleLetterG} from 'react-icons/tb'
 
 export const Shops = (index) => {
   return (
@@ -41,29 +39,6 @@ export const Shops = (index) => {
           />
         </div>
       </div>
-
-      {/* <div className="max-w-screen-xl mx-auto py-10 grid grid-cols-4 gap-10">
-        <ShopsCard
-          title="Twinz Coffee"
-          img={twinz}
-          link="https://twinzcoffee.ru/"
-        />
-        <ShopsCard
-          title="Coffee Bean"
-          img={coffeeBean}
-          link="https://coffeebean.ru/adresa/samara-leningradskaia/"
-        />
-        <ShopsCard
-          title="Stars Coffee"
-          img={starsCoffee}
-          link="https://stars-coffee.ru/"
-        />
-        <ShopsCard
-          title="Carrie Samara"
-          img={carry}
-          link="https://polyana.co/restaurant/%D0%BA%D1%8D%D1%80%D1%80%D0%B8/"
-        />
-      </div> */}
     </div>
   );
 };
