@@ -9,6 +9,13 @@ import {
   resetCart,
 } from "../redux/coffeeSlice";
 
+import {
+  Popover,
+  PopoverHandler,
+  PopoverContent,
+  IconButton,
+} from "@material-tailwind/react";
+
 import { toast } from "react-toastify";
 import StripeCheckout from "react-stripe-checkout";
 import axios from "axios";
@@ -16,6 +23,7 @@ import axios from "axios";
 import { HiOutlineArrowLeft } from "react-icons/hi";
 import { MdClose } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { BsInfoCircle } from "react-icons/bs";
 
 import { empty } from "../assets";
 
@@ -26,6 +34,7 @@ const Cart = () => {
   const userInfo = useSelector((state) => state.coffee.userInfo);
 
   const [totalPrice, setTotalPrice] = useState(0);
+  const [shippingPrice, setShippingPrice] = useState(0);
   const [payNow, setPayNow] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
 
@@ -36,7 +45,15 @@ const Cart = () => {
       return price;
     });
     setTotalPrice(price.toFixed(2));
+
+    if (price > 500) {
+      setShippingPrice(10);
+    } else {
+      setShippingPrice(20);
+    }
   }, [productData]);
+
+  const totalWithShipping = (parseFloat(totalPrice) + shippingPrice).toFixed(2);
 
   const payment = async (token) => {
     try {
@@ -55,6 +72,7 @@ const Cart = () => {
       console.log("Payment error with: ", error);
     }
   };
+
   const handleCheckout = () => {
     if (userInfo) {
       setPayNow(true);
@@ -73,8 +91,6 @@ const Cart = () => {
   };
 
   if (paymentSuccess) {
-    // dispatch(resetCart());
-
     return (
       <div class="mx-auto max-w-screen-xl justify-center py-20 md:flex  md:space-x-1 px-4">
         <div className="w-full">
@@ -239,22 +255,53 @@ const Cart = () => {
               </button>
             </Link>
           </div>
-          <div className="w-full md:w-1/3 h-full sm:mt-10 mt-0 bg-[#fafafa] rounded-xl py-6 px-4">
+          <div className="w-full md:w-1/3 h-full sm:mt-10 mt-0 bg-[#fafafa] rounded-xl py-2 px-4">
             <div className="flex flex-col gap-6 border-b-[1px] border-b-gray-400 pb-6">
-              <h2 className="text-2xl font-medium">cart totals</h2>
+              <h2 className="text-xl font-medium">cart totals</h2>
               <p className="flex items-center gap-4 text-base">
                 Subtotal
-                <span className="font-titleFont font-bold text-lg">
+                <span className="font-titleFont font-bold text-lg text-slate-900">
                   $ {totalPrice}
                 </span>
               </p>
-              <p className="flex items-center gap-4 text-base">
+              <p className="flex items-center gap-4 text-base text-slate-900">
                 Shipping
-                <span>We deliver anywhere in the world</span>
+                <span className="font-titleFont font-bold text-lg">
+                  $ {shippingPrice.toFixed(2)}
+                </span>
+                <Popover>
+                  <PopoverHandler>
+                    <IconButton variant="text" className="rounded-full w-4 h-4">
+                      <BsInfoCircle className="w-4 h-4 -mt-2" />
+                    </IconButton>
+                  </PopoverHandler>
+                  <PopoverContent>
+                    <div class="p-3 space-y-2">
+                      <h3 class="font-semibold font-bodyFont text-slate-900">
+                        Shipping Information
+                      </h3>
+                      <p className="font-titleFont text-slate-800">
+                        We offer two shipping options:
+                        <ul>
+                          <li>Standard Shipping: $20 (Orders below $500)</li>
+                          <li>Standart Shipping: $10 (Orders over $500)</li>
+                        </ul>
+                      </p>
+                      <h3 class="font-bodyFont font-semibold text-slate-900 ">
+                        Calculation
+                      </h3>
+                      <p className="font-titleFont text-slate-800">
+                        Our shipping prices are calculated based on the total
+                        price of your order.
+                      </p>
+                    </div>
+                  </PopoverContent>
+                </Popover>
               </p>
             </div>
             <p className="font-titleFont font-semibold flex justify-between mt-6">
-              Total <span className="text-xl font-bold">$ {totalPrice}</span>
+              Total{" "}
+              <span className="text-lg font-bold">$ {totalWithShipping}</span>
             </p>
             <button
               onClick={handleCheckout}
@@ -268,11 +315,15 @@ const Cart = () => {
                   stripeKey="pk_test_51NVtRQJW0Rf4zOPEhVIM8eJn4ISMp1XUStYN4iJSc6sNKu0TzylycYV0S9id4qapUdO9NLQvMA0IoddHXmW0U2Lp00oyZr643i"
                   name="Coffee Online"
                   amount={parseFloat(totalPrice) * 100}
-                  label="Pay to Vladis"
+                  // label="Pay to Vladis"
                   description={`Your Payment amount is $${totalPrice}`}
                   token={payment}
                   email={userInfo.email}
-                />
+                >
+                  <button className="font-titleFont text-white rounded-lg shadow-lg px-4 py-1.5 tracking-wider transition-colors transform duration-500 focus:outline-none bg-indigo-600  hover:bg-indigo-500 active:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    Pay to Vladis
+                  </button>
+                </StripeCheckout>
               </div>
             )}
           </div>
@@ -291,12 +342,14 @@ const Cart = () => {
               <span className="sm:text-lg text-base font-titleFont font-light text-slate-600 text-center">
                 Back to shop and buy something.
               </span>
-              <button className="px-5 py-2.5 flex gap-2 justify-center items-center mt-4 md:mb-0 text-sm text-white font-titleFont shadow-sm tracking-wider transition-colors transform duration-500 focus:outline-none bg-indigo-600 rounded-lg  hover:bg-indigo-500 active:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                <span>
-                  <HiOutlineArrowLeft />
-                </span>
-                Continue shopping
-              </button>
+              <Link to="/shop">
+                <button className="px-5 py-2.5 flex gap-2 justify-center items-center mt-4 md:mb-0 text-sm text-white font-titleFont shadow-sm tracking-wider transition-colors transform duration-500 focus:outline-none bg-indigo-600 rounded-lg  hover:bg-indigo-500 active:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                  <span>
+                    <HiOutlineArrowLeft />
+                  </span>
+                  Continue shopping
+                </button>
+              </Link>
             </div>
           </div>
         </div>

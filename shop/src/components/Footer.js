@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { sneakers } from "../assets";
 import { FaFacebookF, FaInstagram } from "react-icons/fa";
 import { MdOutlineContactSupport } from "react-icons/md";
@@ -9,6 +9,14 @@ import { ImGithub } from "react-icons/im";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
+  const [inputValue, setInputValue] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    setInputValue("");
+  };
+
   return (
     <footer className="bg-gray-800 text-[#949494] font-titleFont">
       <div className="container px-6 py-12 mx-auto">
@@ -65,9 +73,14 @@ const Footer = () => {
             <h2 className="max-w-lg text-base font-semibold tracking-tight text-white xl:text-xl">
               subscribe to receive new products & newsletter.
             </h2>
-
-            <div className="flex flex-col mx-auto mt-6 space-y-3 md:space-y-0 md:flex-row">
+            {/* <div className="flex flex-col mx-auto mt-6 space-y-3 md:space-y-0 md:flex-row"> */}
+            <form
+              className="flex flex-col mx-auto mt-6 space-y-3 md:space-y-0 md:flex-row"
+              onSubmit={handleSubmit}
+            >
               <input
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
                 id="email-address"
                 name="email"
                 type="email"
@@ -77,13 +90,13 @@ const Footer = () => {
                 placeholder="Enter your email"
               />
               <button
-                onSubmit={(e) => e.preventDefault()}
                 type="submit"
                 className="w-full px-6 py-2.5 text-sm font-semibold tracking-wider text-white shadow-sm transition-colors transform duration-500 md:w-auto md:mx-4 focus:outline-none bg-indigo-600 rounded-lg  hover:bg-indigo-500 active:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
               >
                 Subscribe
               </button>
-            </div>
+            </form>
+            {/* </div> */}
             <p className="mt-4 text-sm leading-8 text-gray-400">
               By clicking "Subscribe" you are agreeing to the Terms and
               Conditions.
