@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import {
@@ -17,6 +17,9 @@ const Nav = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [isUserOpen, setIsUserOpen] = useState(false);
 
+  const dropdownRef = useRef(null);
+  const navDropdownRef = useRef(null);
+
   const productData = useSelector((state) => state.coffee.productData);
   const userInfo = useSelector((state) => state.coffee.userInfo);
 
@@ -29,6 +32,27 @@ const Nav = () => {
     setIsUserOpen(false);
     setIsNavOpen((prevState) => !prevState);
   };
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsUserOpen(false);
+      }
+
+      if (
+        navDropdownRef.current &&
+        !navDropdownRef.current.contains(event.target)
+      ) {
+        setIsNavOpen(false);
+      }
+    }
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   // Login and logout
 
@@ -75,7 +99,7 @@ const Nav = () => {
           />
         </Link>
         <div className="flex items-center md:order-2 ">
-          <div className="relative">
+          <div className="relative" ref={dropdownRef}>
             <button
               id="dropdownUserAvatarButton"
               data-dropdown-toggle="dropdownAvatar"
@@ -157,7 +181,6 @@ const Nav = () => {
           id="navbar-default"
         >
           <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border bg-white rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0">
-            {/* <ul class="flex flex-col font-medium p-4 md:p-0 mt-4  md:flex-row md:space-x-8 md:mt-0 "> */}
             <Link to="/">
               <li className=" block py-2 pl-3 pr-4 md:p-0 text-base text-gray-700 hover:text-slate-800  md:text-slate-700   md:hover:text-slate-800 md:hover:scale-110 md:hover:underline md:underline-offset-4 md:text-decoration-[2px] md:duration-500 md:cursor-pointer">
                 Home

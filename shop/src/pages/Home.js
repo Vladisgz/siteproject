@@ -55,7 +55,7 @@ const Home = () => {
         <div className="mx-auto mt-10 max-w-2xl lg:mx-0 lg:max-w-none">
           <div className="grid grid-cols-1 gap-x-8 gap-y-6 leading-7 sm:grid-cols-2 md:flex lg:gap-x-10">
             {links.map((link) => (
-              <button className="flex-none rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-titleFont text-slate-200 hover:scale-110 hover:text-base duration-700 hover:text-white shadow-sm hover:bg-indigo-500 active:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+              <button className="flex-none px-6 py-2.5 text-sm font-semibold font-titleFont tracking-wider text-white shadow-sm transition-colors transform duration-500 focus:outline-none bg-indigo-600 rounded-lg  hover:bg-indigo-500 active:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
                 <a key={link.name} href={link.href}>
                   {link.name} <span aria-hidden="true">&rarr;</span>
                 </a>

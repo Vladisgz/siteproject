@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import {
   decrementQuantity,
@@ -27,8 +27,9 @@ import { BsInfoCircle } from "react-icons/bs";
 
 import { empty } from "../assets";
 
-const Cart = () => {
+const Cart = ({ product }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const productData = useSelector((state) => state.coffee.productData);
   const userInfo = useSelector((state) => state.coffee.userInfo);
@@ -39,17 +40,15 @@ const Cart = () => {
   const [paymentSuccess, setPaymentSuccess] = useState(false);
 
   useEffect(() => {
-    let price = 0;
-    productData.map((item) => {
-      price += item.price * item.quantity;
-      return price;
-    });
+    const price = productData.reduce((accumulator, item) => {
+      return accumulator + item.price * item.quantity;
+    }, 0);
     setTotalPrice(price.toFixed(2));
 
     if (price > 500) {
-      setShippingPrice(10);
-    } else {
       setShippingPrice(20);
+    } else {
+      setShippingPrice(30);
     }
   }, [productData]);
 
@@ -155,96 +154,112 @@ const Cart = () => {
               </button>
             </div>
             <div>
-              {productData.map((item) => (
-                <ul
-                  key={item._id}
-                  className="w-full flex flex-col divide-y divide-gray-700"
-                >
-                  <li className="flex flex-col py-4 px-4 sm:flex-row sm:justify-between border rounded-xl shadow-lg mb-4">
-                    <div className="flex w-full space-x-3 sm:space-x-4">
-                      <img
-                        className="flex-shrink-0 object-cover sm:w-40 sm:h-40 w-32 h-32 rounded-lg outline-none"
-                        src={item.image}
-                        alt="prodImg"
-                      />
-                      <div className="flex flex-col justify-between w-full ">
-                        <div className="flex justify-between w-full">
-                          <div className="space-y-2">
-                            <h3 className="sm:text-base text-sm font-bodyFont font-medium">
-                              {item.title.substring(0, 40)}
-                            </h3>
-                            <p className="sm:text-base text-sm text-slate-700 font-titleFont">
-                              $ {item.price.toFixed(2)}
-                            </p>
-                            <div className="flex sm:text-base text-xs text-slate-600 gap-1 items-center justify-start px-1 py-2">
-                              <span className=" text-sm">Quantity:</span>
-                              <span
+              {productData.map((item) => {
+                const _id = item.title;
+                const idString = (_id) => {
+                  return String(_id).toLowerCase().split(" ").join("");
+                };
+
+                const rootId = idString(_id);
+
+                const handleDetails = () => {
+                  navigate(`/product/${rootId}`, {
+                    state: { item },
+                  });
+                };
+
+                return (
+                  <ul
+                    key={item._id}
+                    className="w-full flex flex-col divide-y divide-gray-700"
+                  >
+                    <li className="flex flex-col py-4 px-4 sm:flex-row sm:justify-between border rounded-xl shadow-lg mb-4">
+                      <div className="flex w-full space-x-3 sm:space-x-4">
+                        <img
+                          onClick={handleDetails}
+                          className="flex-shrink-0 object-cover sm:w-40 sm:h-40 w-32 h-32 rounded-lg outline-none cursor-pointer"
+                          src={item.image}
+                          alt="prodImg"
+                        />
+                        <div className="flex flex-col justify-between w-full ">
+                          <div className="flex justify-between w-full">
+                            <div className="space-y-2">
+                              <h3 className="sm:text-base text-sm font-bodyFont font-medium">
+                                {item.title.substring(0, 40)}
+                              </h3>
+                              <p className="sm:text-base text-sm text-slate-700 font-titleFont">
+                                $ {item.price.toFixed(2)}
+                              </p>
+                              <div className="flex sm:text-base text-xs text-slate-600 gap-1 items-center justify-start px-1 py-2">
+                                <span className=" text-sm">Quantity:</span>
+                                <span
+                                  onClick={() =>
+                                    dispatch(
+                                      decrementQuantity({
+                                        _id: item._id,
+                                        title: item.title,
+                                        image: item.image,
+                                        price: item.price,
+                                        quantity: 1,
+                                        description: item.description,
+                                      }),
+                                    )
+                                  }
+                                  className="border-inherit rounded-full w-5 h-5 font-titleFont text-lg active:text-2xl cursor-pointer duration-500 hover:bg-slate-200 active:bg-slate-400 flex items-center justify-center "
+                                >
+                                  -
+                                </span>
+                                <span className="font-titleFont sm:text-base text-sm items-center justify-center active">
+                                  {item.quantity}
+                                </span>
+                                <span
+                                  onClick={() =>
+                                    dispatch(
+                                      incrementQuantity({
+                                        _id: item._id,
+                                        title: item.title,
+                                        image: item.image,
+                                        price: item.price,
+                                        quantity: 1,
+                                        description: item.description,
+                                      }),
+                                    )
+                                  }
+                                  className="border-inherit rounded-full w-5 h-5 font-titleFont text-lg active:text-2xl cursor-pointer duration-500 hover:bg-slate-200 active:bg-slate-400 flex items-center justify-center "
+                                >
+                                  +
+                                </span>
+                              </div>
+                            </div>
+                            <div className="text-right">
+                              <button
                                 onClick={() =>
-                                  dispatch(
-                                    decrementQuantity({
-                                      _id: item._id,
-                                      title: item.title,
-                                      image: item.image,
-                                      price: item.price,
-                                      quantity: 1,
-                                      description: item.description,
-                                    }),
-                                  )
+                                  dispatch(deleteItem(item._id)) &
+                                  toast.error(`${item.title} is removed`, {
+                                    position: "top-center",
+                                    autoClose: 50,
+                                    hideProgressBar: true,
+                                    closeOnClick: true,
+                                    pauseOnHover: false,
+                                    draggable: true,
+                                    theme: "light",
+                                  })
                                 }
-                                className="border-inherit rounded-full w-5 h-5 font-titleFont text-lg active:text-2xl cursor-pointer duration-500 hover:bg-slate-200 active:bg-slate-400 flex items-center justify-center "
+                                type="button"
                               >
-                                -
-                              </span>
-                              <span className="font-titleFont sm:text-base text-sm items-center justify-center active">
-                                {item.quantity}
-                              </span>
-                              <span
-                                onClick={() =>
-                                  dispatch(
-                                    incrementQuantity({
-                                      _id: item._id,
-                                      title: item.title,
-                                      image: item.image,
-                                      price: item.price,
-                                      quantity: 1,
-                                      description: item.description,
-                                    }),
-                                  )
-                                }
-                                className="border-inherit rounded-full w-5 h-5 font-titleFont text-lg active:text-2xl cursor-pointer duration-500 hover:bg-slate-200 active:bg-slate-400 flex items-center justify-center "
-                              >
-                                +
-                              </span>
+                                <MdClose className="w-6 h-6  text-slate-500 hover:text-slate-900 active:text-black" />
+                              </button>
                             </div>
                           </div>
-                          <div className="text-right">
-                            <button
-                              onClick={() =>
-                                dispatch(deleteItem(item._id)) &
-                                toast.error(`${item.title} is removed`, {
-                                  position: "top-center",
-                                  autoClose: 50,
-                                  hideProgressBar: true,
-                                  closeOnClick: true,
-                                  pauseOnHover: false,
-                                  draggable: true,
-                                  theme: "light",
-                                })
-                              }
-                              type="button"
-                            >
-                              <MdClose className="w-6 h-6  text-slate-500 hover:text-slate-900 active:text-black" />
-                            </button>
-                          </div>
+                          <p className="sm:text-lg text-base text-slate-700 font-titleFont border-t pt-3">
+                            $ {(item.quantity * item.price).toFixed(2)}
+                          </p>
                         </div>
-                        <p className="sm:text-lg text-base text-slate-700 font-titleFont border-t pt-3">
-                          $ {(item.quantity * item.price).toFixed(2)}
-                        </p>
                       </div>
-                    </div>
-                  </li>
-                </ul>
-              ))}
+                    </li>
+                  </ul>
+                );
+              })}
             </div>
             <Link to="/shop">
               <button className="md:ml-0 mt-2 flex items-center gap-1 text-gray-400 hover:text-black duration-300 mb-4 md:mb-0">
@@ -271,8 +286,8 @@ const Cart = () => {
                 </span>
                 <Popover>
                   <PopoverHandler>
-                    <IconButton variant="text" className="rounded-full w-4 h-4">
-                      <BsInfoCircle className="w-4 h-4 -mt-2" />
+                    <IconButton variant="text" className="rounded-full w-5 h-5">
+                      <BsInfoCircle className="w-5 h-5 -mt-2.5" />
                     </IconButton>
                   </PopoverHandler>
                   <PopoverContent>
@@ -283,8 +298,8 @@ const Cart = () => {
                       <p className="font-titleFont text-slate-800">
                         We offer two shipping options:
                         <ul>
-                          <li>Standard Shipping: $20 (Orders below $500)</li>
-                          <li>Standart Shipping: $10 (Orders over $500)</li>
+                          <li>Standard Shipping: $30 (Orders below $500)</li>
+                          <li>Standart Shipping: $20 (Orders over $500)</li>
                         </ul>
                       </p>
                       <h3 class="font-bodyFont font-semibold text-slate-900 ">

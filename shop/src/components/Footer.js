@@ -73,7 +73,6 @@ const Footer = () => {
             <h2 className="max-w-lg text-base font-semibold tracking-tight text-white xl:text-xl">
               subscribe to receive new products & newsletter.
             </h2>
-            {/* <div className="flex flex-col mx-auto mt-6 space-y-3 md:space-y-0 md:flex-row"> */}
             <form
               className="flex flex-col mx-auto mt-6 space-y-3 md:space-y-0 md:flex-row"
               onSubmit={handleSubmit}
@@ -96,7 +95,6 @@ const Footer = () => {
                 Subscribe
               </button>
             </form>
-            {/* </div> */}
             <p className="mt-4 text-sm leading-8 text-gray-400">
               By clicking "Subscribe" you are agreeing to the Terms and
               Conditions.
