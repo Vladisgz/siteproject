@@ -5,9 +5,10 @@ const cors = require("cors");
 app.use(cors());
 require("dotenv").config();
 const port = process.env.PORT;
-const Stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const Stripe = require("stripe")(
+  process.env.STRIPE_SECRET_KEY
+);
 const bodyParser = require("body-parser");
-const { applyPatches } = require("immer");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -25,9 +26,16 @@ app.post("/pay", async (req, res) => {
       currency: "usd",
     });
 
-    res.status(200).json({ success: true, message: "Paynemt succeeded" });
+    res
+      .status(200)
+      .json({
+        success: true,
+        message: "Paynemt succeeded",
+      });
   } catch {
-    res.status(500).json({ success: false, message: "Payment failed" });
+    res
+      .status(500)
+      .json({ success: false, message: "Payment failed" });
   }
 });
 

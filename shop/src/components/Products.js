@@ -4,14 +4,19 @@ import ProductsCard from "./ProductsCard";
 
 const Products = ({ products }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsOnPage = 6;
+  const itemsOnPage = 9;
 
   const startIndex = (currentPage - 1) * itemsOnPage;
   const endIndex = startIndex + itemsOnPage;
 
-  const displayProducts = products?.slice(startIndex, endIndex);
+  const displayProducts = products?.slice(
+    startIndex,
+    endIndex
+  );
 
-  const totalPages = Math.ceil(products?.length / itemsOnPage);
+  const totalPages = Math.ceil(
+    products?.length / itemsOnPage
+  );
 
   const pageButtons = [];
   for (let i = 1; i <= totalPages; i++) {
@@ -26,7 +31,7 @@ const Products = ({ products }) => {
         onClick={() => setCurrentPage(i)}
       >
         {i}
-      </button>,
+      </button>
     );
   }
 
@@ -43,12 +48,13 @@ const Products = ({ products }) => {
       <span className="w-40 h-[3px] bg-[#0a192f] shadow-xl shadow-[#040c16]"></span>
 
       <p className="max-w-[700px] text-gray-600 text-center">
-        From casual wear to elegant evening attire, we have the latest designs
-        to keep you on top of the fashion game.
+        From casual wear to elegant evening attire, we have
+        the latest designs to keep you on top of the fashion
+        game.
       </p>
       <div className="max-w-screen-xl mx-auto p-10 grid grid-cols-1 xl:grid-cols-3 lg:grid-cols-2 gap-12">
         {displayProducts?.map((item) => (
-          <ProductsCard key={item.id} product={item} />
+          <ProductsCard key={item._id} product={item} />
         ))}
       </div>
       <div className="flex justify-center space-x-2 mt-4 mb-10">

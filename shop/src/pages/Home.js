@@ -1,13 +1,12 @@
 import React from "react";
-// import { back } from "../assets";
 
 const links = [{ name: "To shopping", href: "/shop" }];
 
 const stats = [
-  { name: "Offices worldwide", value: "13" },
-  { name: "Reviews", value: "999+" },
-  { name: "Delivery", value: "Around the World" },
-  { name: "Help & Support", value: "24/7" },
+  { id: 1, name: "Offices worldwide", value: "13" },
+  { id: 2, name: "Reviews", value: "999+" },
+  { id: 3, name: "Delivery", value: "Around the World" },
+  { id: 4, name: "Help & Support", value: "24/7" },
 ];
 
 const Home = () => {
@@ -43,28 +42,38 @@ const Home = () => {
             Enjoy shopping with us
           </h2>
           <p className="mt-6 text-lg leading-8 text-slate-600 font-titleFont font-semibold">
-            We take great pride in our commitment to quality, offering products
-            from renowned brands and trusted manufacturers. Our competitive
-            pricing and regular discounts ensure that you get the best value for
-            your money. <br /> <br />
-            For those who prefer shopping from the comfort of their homes, our
-            user-friendly website offers a seamless online shopping experience,
-            with secure payment options and prompt delivery services.
+            We take great pride in our commitment to
+            quality, offering products from renowned brands
+            and trusted manufacturers. Our competitive
+            pricing and regular discounts ensure that you
+            get the best value for your money. <br /> <br />
+            For those who prefer shopping from the comfort
+            of their homes, our user-friendly website offers
+            a seamless online shopping experience, with
+            secure payment options and prompt delivery
+            services.
           </p>
         </div>
         <div className="mx-auto mt-10 max-w-2xl lg:mx-0 lg:max-w-none">
           <div className="grid grid-cols-1 gap-x-8 gap-y-6 leading-7 sm:grid-cols-2 md:flex lg:gap-x-10">
-            {links.map((link) => (
-              <button className="flex-none px-6 py-2.5 text-sm font-semibold font-titleFont tracking-wider text-white shadow-sm transition-colors transform duration-500 focus:outline-none bg-indigo-600 rounded-lg  hover:bg-indigo-500 active:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
-                <a key={link.name} href={link.href}>
-                  {link.name} <span aria-hidden="true">&rarr;</span>
+            {links.map((link, index) => (
+              <button
+                key={index}
+                className="flex-none px-6 py-2.5 text-sm font-semibold font-titleFont tracking-wider text-white shadow-sm transition-colors transform duration-500 focus:outline-none bg-indigo-600 rounded-lg  hover:bg-indigo-500 active:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+              >
+                <a href={link.href}>
+                  {link.name}{" "}
+                  <span aria-hidden="true">&rarr;</span>
                 </a>
               </button>
             ))}
           </div>
           <dl className="mt-16 grid grid-cols-1 gap-8 sm:mt-20 sm:grid-cols-2 lg:grid-cols-4">
             {stats.map((stat) => (
-              <div key={stat.name} className="flex flex-col-reverse">
+              <div
+                key={stat.id}
+                className="flex flex-col-reverse"
+              >
                 <dt className="text-base leading-7 text-slate-500 font-bodyFont">
                   {stat.name}
                 </dt>

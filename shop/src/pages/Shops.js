@@ -1,5 +1,10 @@
 import React from "react";
-import { carry, twinz, coffeeBean, starsCoffee } from "../assets";
+import {
+  carry,
+  twinz,
+  coffeeBean,
+  starsCoffee,
+} from "../assets";
 import ShopsCard from "../components/ShopsCard";
 import BannerCoffee from "../components/BannerCoffee";
 
@@ -7,8 +12,8 @@ export const Shops = (index) => {
   return (
     <div>
       <BannerCoffee />
-      <div class="container px-5 py-24 mx-auto">
-        <div class="flex flex-wrap -m-4">
+      <div className="container px-5 py-24 mx-auto">
+        <div className="flex flex-wrap -m-4">
           <ShopsCard
             subtitle="Coffee Shop"
             title="Twinz Coffee"

@@ -20,8 +20,12 @@ const Nav = () => {
   const dropdownRef = useRef(null);
   const navDropdownRef = useRef(null);
 
-  const productData = useSelector((state) => state.coffee.productData);
-  const userInfo = useSelector((state) => state.coffee.userInfo);
+  const productData = useSelector(
+    (state) => state.coffee.productData
+  );
+  const userInfo = useSelector(
+    (state) => state.coffee.userInfo
+  );
 
   const handleDropdownToggle = () => {
     setIsNavOpen(false);
@@ -35,7 +39,10 @@ const Nav = () => {
 
   useEffect(() => {
     function handleClickOutside(event) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
         setIsUserOpen(false);
       }
 
@@ -50,11 +57,12 @@ const Nav = () => {
     document.addEventListener("click", handleClickOutside);
 
     return () => {
-      document.removeEventListener("click", handleClickOutside);
+      document.removeEventListener(
+        "click",
+        handleClickOutside
+      );
     };
   }, []);
-
-  // Login and logout
 
   const dispatch = useDispatch();
   const auth = getAuth();
@@ -71,7 +79,7 @@ const Nav = () => {
             name: user.displayName,
             email: user.email,
             image: user.photoURL,
-          }),
+          })
         );
       })
       .catch((error) => console.log(error));
@@ -107,7 +115,9 @@ const Nav = () => {
               type="button"
               onClick={handleDropdownToggle}
             >
-              <span className="sr-only">Open user menu</span>
+              <span className="sr-only">
+                Open user menu
+              </span>
               <img
                 className="sm:w-10 sm:h-10 h-8 w-8 rounded-full"
                 src={userInfo ? userInfo.image : userLogo}
@@ -122,7 +132,9 @@ const Nav = () => {
               >
                 <div className="px-4 py-3">
                   <span className=" block text-sm text-gray-900">
-                    {userInfo ? userInfo.name : "Welcone here"}
+                    {userInfo
+                      ? userInfo.name
+                      : "Welcone here"}
                   </span>
                   <span className=" block  text-sm text-gray-600">
                     {userInfo ? userInfo.email : ""}
@@ -180,7 +192,7 @@ const Nav = () => {
           } w-full md:block md:w-auto`}
           id="navbar-default"
         >
-          <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border bg-white rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0">
+          <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border bg-white rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0">
             <Link to="/">
               <li className=" block py-2 pl-3 pr-4 md:p-0 text-base text-gray-700 hover:text-slate-800  md:text-slate-700   md:hover:text-slate-800 md:hover:scale-110 md:hover:underline md:underline-offset-4 md:text-decoration-[2px] md:duration-500 md:cursor-pointer">
                 Home
@@ -188,18 +200,18 @@ const Nav = () => {
             </Link>
             <Link to="/shop">
               <li className=" block py-2 pl-3 pr-4 md:p-0 text-base text-gray-700 hover:text-slate-800  md:text-slate-700   md:hover:text-slate-800 md:hover:scale-110 md:hover:underline md:underline-offset-4 md:text-decoration-[2px] md:duration-500 md:cursor-pointer">
-                Shop Store
+                Shop
               </li>
             </Link>
             <Link to="/tech">
               <li className=" block py-2 pl-3 pr-4 md:p-0 text-base text-gray-700 hover:text-slate-800  md:text-slate-700   md:hover:text-slate-800 md:hover:scale-110 md:hover:underline md:underline-offset-4 md:text-decoration-[2px] md:duration-500 md:cursor-pointer">
-                Tech Store
+                Tech
               </li>
             </Link>
 
             <Link to="/shops">
               <li className=" block py-2 pl-3 pr-4 md:p-0 text-base text-gray-700 hover:text-slate-800  md:text-slate-700   md:hover:text-slate-800 md:hover:scale-110 md:hover:underline md:underline-offset-4 md:text-decoration-[2px] md:duration-500 md:cursor-pointer">
-                Coffee Shops
+                Coffee
               </li>
             </Link>
 

@@ -17,8 +17,6 @@ import Tech from "./components/Tech";
 import Home from "./pages/Home";
 import Blog from "./pages/Blog";
 
-// БУДЕТ ОТОБРАЖАТЬСЯ НА КАЖДОЙ СТРАНИЦЕ
-
 const Layout = () => {
   return (
     <div>

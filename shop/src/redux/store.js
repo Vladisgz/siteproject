@@ -1,7 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import coffeeReducer from "./coffeeSlice";
 
-// import { configureStore } from "@reduxjs/toolkit";
 import {
   persistStore,
   persistReducer,
@@ -20,14 +19,24 @@ const persistConfig = {
   storage,
 };
 
-const persistedReducer = persistReducer(persistConfig, coffeeReducer);
+const persistedReducer = persistReducer(
+  persistConfig,
+  coffeeReducer
+);
 
 export const store = configureStore({
   reducer: { coffee: persistedReducer },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        ignoredActions: [
+          FLUSH,
+          REHYDRATE,
+          PAUSE,
+          PERSIST,
+          PURGE,
+          REGISTER,
+        ],
       },
     }),
 });
