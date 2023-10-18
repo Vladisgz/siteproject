@@ -20,12 +20,8 @@ const Nav = () => {
   const dropdownRef = useRef(null);
   const navDropdownRef = useRef(null);
 
-  const productData = useSelector(
-    (state) => state.coffee.productData
-  );
-  const userInfo = useSelector(
-    (state) => state.coffee.userInfo
-  );
+  const productData = useSelector((state) => state.coffee.productData);
+  const userInfo = useSelector((state) => state.coffee.userInfo);
 
   const handleDropdownToggle = () => {
     setIsNavOpen(false);
@@ -39,10 +35,7 @@ const Nav = () => {
 
   useEffect(() => {
     function handleClickOutside(event) {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target)
-      ) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsUserOpen(false);
       }
 
@@ -57,10 +50,7 @@ const Nav = () => {
     document.addEventListener("click", handleClickOutside);
 
     return () => {
-      document.removeEventListener(
-        "click",
-        handleClickOutside
-      );
+      document.removeEventListener("click", handleClickOutside);
     };
   }, []);
 
@@ -79,7 +69,7 @@ const Nav = () => {
             name: user.displayName,
             email: user.email,
             image: user.photoURL,
-          })
+          }),
         );
       })
       .catch((error) => console.log(error));
@@ -115,9 +105,7 @@ const Nav = () => {
               type="button"
               onClick={handleDropdownToggle}
             >
-              <span className="sr-only">
-                Open user menu
-              </span>
+              <span className="sr-only">Open user menu</span>
               <img
                 className="sm:w-10 sm:h-10 h-8 w-8 rounded-full"
                 src={userInfo ? userInfo.image : userLogo}
@@ -132,9 +120,7 @@ const Nav = () => {
               >
                 <div className="px-4 py-3">
                   <span className=" block text-sm text-gray-900">
-                    {userInfo
-                      ? userInfo.name
-                      : "Welcone here"}
+                    {userInfo ? userInfo.name : "Welcome here"}
                   </span>
                   <span className=" block  text-sm text-gray-600">
                     {userInfo ? userInfo.email : ""}

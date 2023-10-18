@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   const [inputValue, setInputValue] = useState("");
   const [subscribed, setSubcribed] = useState(
-    localStorage.getItem("subscribe") === "true"
+    localStorage.getItem("subscribe") === "true",
   );
 
   const handleSubmit = (e) => {
@@ -29,16 +29,14 @@ const Footer = () => {
       <div className="container px-6 py-12 mx-auto">
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-y-10 lg:grid-cols-4">
           <div>
-            <h2 className="font-semibold text-white text-xl">
-              contacts
-            </h2>
+            <h2 className="font-semibold text-white text-xl">contacts</h2>
             <div className="flex flex-col items-start mt-5 space-y-2">
               <p>Samara, Russia</p>
               <a
                 className="hover:text-white duration-300 cursor-pointer"
                 href="tel:89198044708"
               >
-                Mobile: +79198044708
+                Mobile: +7(919)-***-**-**
               </a>
               <a
                 className="hover:text-white duration-300 cursor-pointer"
@@ -50,9 +48,7 @@ const Footer = () => {
           </div>
 
           <div>
-            <h2 className="font-semibold text-white text-xl">
-              profile
-            </h2>
+            <h2 className="font-semibold text-white text-xl">profile</h2>
             <div className="flex flex-col items-start mt-5 space-y-2">
               <p className="flex items-center gap-3 hover:text-white duration-300 cursor-pointer">
                 <span>
@@ -84,15 +80,13 @@ const Footer = () => {
           {subscribed ? (
             <div className="sm:col-span-2 max-w-lg sm:my-auto mt-6">
               <span className="text-sm font-titleFont tracking-wide text-slate-700 xl:texl-xl border-0 rounded-lg py-3 px-5 bg-emerald-400 ">
-                Success! Now check your email to confirm
-                your subscription.
+                Success! Now check your email to confirm your subscription.
               </span>
             </div>
           ) : (
             <div className="sm:col-span-2 ">
               <h2 className="max-w-lg text-base font-semibold tracking-tight text-white xl:text-xl">
-                subscribe to receive new products &
-                newsletter.
+                subscribe to receive new products & newsletter.
               </h2>
               <form
                 className="flex flex-col mx-auto mt-6 space-y-3 md:space-y-0 md:flex-row "
@@ -100,9 +94,7 @@ const Footer = () => {
               >
                 <input
                   value={inputValue}
-                  onChange={(e) =>
-                    setInputValue(e.target.value)
-                  }
+                  onChange={(e) => setInputValue(e.target.value)}
                   id="email-address"
                   name="email"
                   type="email"
@@ -119,8 +111,8 @@ const Footer = () => {
                 </button>
               </form>
               <p className="mt-4 text-sm leading-8 text-gray-400">
-                By clicking "Subscribe" you are agreeing to
-                the Terms and Conditions.
+                By clicking "Subscribe" you are agreeing to the Terms and
+                Conditions.
               </p>
             </div>
           )}
