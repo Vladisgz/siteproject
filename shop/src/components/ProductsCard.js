@@ -25,9 +25,9 @@ const ProductsCard = ({ product }) => {
   };
 
   return (
-    <div className="relative ">
-      <div className="p-3 h-full w-96 m-auto bg-white shadow-lg rounded-xl">
-        <div className="p-3 w-full h-96 cursor-pointer overflow-hidden">
+    <div className="relative">
+      <div className="p-3 w-70 h-full mx-auto bg-white shadow-lg rounded-xl">
+        <div className="p-3 w-60 h-60 md:w-72 md:h-72 cursor-pointer overflow-hidden">
           <img
             onClick={handleDetails}
             className="w-full h-full object-cover rounded-xl"

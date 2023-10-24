@@ -78,8 +78,8 @@ const Footer = () => {
           </div>
 
           {subscribed ? (
-            <div className="sm:col-span-2 max-w-lg sm:my-auto mt-6">
-              <span className="text-sm font-titleFont tracking-wide text-slate-700 xl:texl-xl border-0 rounded-lg py-3 px-5 bg-emerald-400 ">
+            <div className="col-span-1 lg:col-span-2 max-w-lg md:my-auto mt-6">
+              <span className="flex flex-wrap text-sm font-titleFont tracking-wide text-slate-700 xl:texl-xl border-0 rounded-lg py-3 px-5 bg-emerald-400 ">
                 Success! Now check your email to confirm your subscription.
               </span>
             </div>

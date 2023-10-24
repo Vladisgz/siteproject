@@ -23,7 +23,7 @@ const Product = () => {
         price: details.price,
         quantity: baseQ,
         description: details.description,
-      })
+      }),
     );
 
     setItemsAdded(itemsAdded + baseQ);
@@ -51,7 +51,7 @@ const Product = () => {
         <div className="lg:w-4/5 mx-auto flex flex-wrap">
           <img
             alt="ecommerce"
-            className="lg:w-1/2 w-full lg:h-[550px] h-96 object-cover object-center rounded-xl shadow-xl"
+            className="lg:w-1/2 w-96 lg:h-[550px] h-96 mx-auto object-cover object-center rounded-xl shadow-xl"
             src={details.image}
           />
           <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
@@ -128,27 +128,17 @@ const Product = () => {
                 >
                   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
                 </svg>
-                <span className="text-gray-600 ml-3">
-                  4 Reviews
-                </span>
+                <span className="text-gray-600 ml-3">4 Reviews</span>
               </span>
             </div>
-            <p className="leading-relaxed">
-              {details.description}
-            </p>
+            <p className="leading-relaxed">{details.description}</p>
             <div className="flex mt-6 items-center justify-start pb-5 border-b-2 border-gray-100 mb-5 gap-4">
               <div className="flex items-center sm:justify-between justify-start border text-gray-500 p-3 rounded-lg shadow-lg">
-                <span className="pr-3 text-sm">
-                  Quantity
-                </span>
+                <span className="pr-3 text-sm">Quantity</span>
                 <div className="flex items-center text-sm font-semibold gap-4">
                   <button
                     onClick={() =>
-                      setBaseQ(
-                        baseQ === 1
-                          ? (baseQ = 1)
-                          : baseQ - 1
-                      )
+                      setBaseQ(baseQ === 1 ? (baseQ = 1) : baseQ - 1)
                     }
                     className="h-5 px-2 font-normal text-lg flex items-center justify-center cursor-pointer active:text-2xl duration-500"
                   >

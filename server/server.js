@@ -1,37 +1,33 @@
 const express = require("express");
 const app = express();
 
-const cors = require("cors");
-const bodyParser = require("body-parser");
-
-app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
 require("dotenv").config();
-
 const port = process.env.PORT;
-const Stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+const Stripe = require("stripe")(stripeSecretKey);
+
+const cors = require("cors");
+app.use(cors());
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.get("/", function (req, res) {
   res.send("Hello World");
 });
 
 app.post("/pay", async (req, res) => {
+  console.log(req.body.token);
+
   try {
-    const { id: source, amount } = req.body.token;
-    const paymentIntent = await Stripe.paymentIntents.create({
-      amount,
+    await Stripe.charges.create({
+      source: req.body.token.id,
+      amount: req.body.amount,
       currency: "usd",
-      payment_method: source,
-      confirmation_method: "manual",
     });
 
-    res
-      .status(200)
-      .json({ success: true, clientSecret: paymentIntent.client_secret });
-  } catch (error) {
-    console.error(error);
+    res.status(200).json({ success: true, message: "Paynemt succeeded" });
+  } catch {
     res.status(500).json({ success: false, message: "Payment failed" });
   }
 });

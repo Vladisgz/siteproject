@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  carry,
-  twinz,
-  coffeeBean,
-  starsCoffee,
-} from "../assets";
+import { carry, twinz, coffeeBean, starsCoffee } from "../assets";
 import ShopsCard from "../components/ShopsCard";
 import BannerCoffee from "../components/BannerCoffee";
 
