@@ -56,7 +56,7 @@ const Cart = ({ product }) => {
 
   const payment = async (token) => {
     try {
-      await axios.post("http://localhost:8000/pay", {
+      await axios.post("https://siteproject-theta.vercel.app/pay", {
         amount: parseFloat(totalPrice) * 100,
         token: token,
       });
