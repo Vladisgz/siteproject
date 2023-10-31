@@ -56,7 +56,8 @@ const Cart = ({ product }) => {
 
   const payment = async (token) => {
     try {
-      await axios.post("https://localhost:3003/pay", {
+      // await axios.post("http://localhost:3003/pay", {
+      await axios.post("https://siteproject-liard.vercel.app/", {
         amount: parseFloat(totalPrice) * 100,
         token: token,
       });
