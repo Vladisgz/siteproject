@@ -17,14 +17,22 @@ app.get("/", function (req, res) {
 });
 
 app.post("/pay", async (req, res) => {
-  console.log(req.body.token);
+  console.log("Payment request received at: ", new Date());
+  console.log("Token ID: ", req.body.token.id);
+  console.log("Amount: ", req.body.amount);
 
   try {
+    const startTime = new Date().getTime();
     await Stripe.charges.create({
       source: req.body.token.id,
       amount: req.body.amount,
       currency: "usd",
     });
+
+    const endTime = new Date().getTime();
+
+    console.log("Stripe API respjnce reveived at: ", new Date());
+    console.log("Time taken for Stripe request: ", endTime - startTime, "ms");
 
     res.status(200).json({ success: true, message: "Paynemt succeeded" });
   } catch {

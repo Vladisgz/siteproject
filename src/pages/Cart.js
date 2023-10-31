@@ -56,10 +56,14 @@ const Cart = ({ product }) => {
 
   const payment = async (token) => {
     try {
-      await axios.post("https://localhost:7007/pay", {
-        amount: parseFloat(totalPrice) * 100,
-        token: token,
-      });
+      await axios.post(
+        "https://localhost:7007/pay",
+        {
+          amount: parseFloat(totalPrice) * 100,
+          token: token,
+        },
+        { timeout: 1000 },
+      );
 
       toast.success("Payment successful!", {
         position: "top-center",
