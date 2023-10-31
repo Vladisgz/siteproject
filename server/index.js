@@ -31,7 +31,8 @@ app.post("/pay", async (req, res) => {
   }
 });
 
-app.listen(port, () => {
+// app.listen(port, () => {
+app.listen("https://siteproject-liard.vercel.app/", () => {
   console.log(`Server is running on Port ${port}`);
 });
 
