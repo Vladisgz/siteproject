@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-const { createProxyMiddleware } = require("http-proxy-middleware");
 
 require("dotenv").config();
 const port = process.env.PORT || 3003;
@@ -20,6 +19,7 @@ app.get("/", function (req, res) {
 const corsOptions = {
   origin: "https://siteproject-liard.vercel.app",
   methods: "POST",
+  credentials: true,
 };
 
 app.post("/pay", cors(corsOptions), async (req, res) => {
