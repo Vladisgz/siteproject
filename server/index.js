@@ -1,8 +1,9 @@
 const express = require("express");
 const app = express();
+const { createProxyMiddleware } = require("http-proxy-middleware");
 
 require("dotenv").config();
-const port = process.env.SERVER_PORT;
+const port = process.env.PORT || 3003;
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
 const Stripe = require("stripe")(stripeSecretKey);
 
