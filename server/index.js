@@ -22,7 +22,7 @@ const corsOptions = {
   methods: "POST",
 };
 
-app.post("/api/pay", cors(corsOptions), async (req, res) => {
+app.post("/pay", cors(corsOptions), async (req, res) => {
   console.log(req.body.token);
   try {
     await Stripe.charges.create({
