@@ -56,7 +56,7 @@ const Cart = ({ product }) => {
 
   const payment = async (token) => {
     try {
-      await axios.post("api/pay", {
+      await axios.post("/pay", {
         amount: parseFloat(totalPrice) * 100,
         token: token,
       });

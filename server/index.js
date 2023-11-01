@@ -17,7 +17,12 @@ app.get("/", function (req, res) {
   res.send("Hello World");
 });
 
-app.post("/pay", async (req, res) => {
+const corsOptions = {
+  origin: "https://siteproject-liard.vercel.app",
+  methods: "POST",
+};
+
+app.post("/api/pay", cors(corsOptions), async (req, res) => {
   console.log(req.body.token);
   try {
     await Stripe.charges.create({
