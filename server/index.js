@@ -2,12 +2,16 @@ const express = require("express");
 const app = express();
 
 require("dotenv").config();
-const port = process.env.PORT || 3003;
+const port = process.env.SERVER_PORT || 4004;
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
 const Stripe = require("stripe")(stripeSecretKey);
 
 const cors = require("cors");
-app.use(cors());
+app.use(cors()); // локально
+
+// app.use(
+//   cors({ origin: "https://siteproject-liard.vercel.app", credentials: true }),
+// );
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -16,13 +20,7 @@ app.get("/", function (req, res) {
   res.send("Hello World");
 });
 
-const corsOptions = {
-  origin: "https://siteproject-liard.vercel.app",
-  methods: "POST",
-  credentials: true,
-};
-
-app.post("/pay", cors(corsOptions), async (req, res) => {
+app.post("/pay", async (req, res) => {
   console.log(req.body.token);
   try {
     await Stripe.charges.create({
@@ -31,8 +29,9 @@ app.post("/pay", cors(corsOptions), async (req, res) => {
       currency: "usd",
     });
 
-    res.status(200).json({ success: true, message: "Paynemt succeeded" });
-  } catch {
+    res.status(200).json({ success: true, message: "Payment succeeded" });
+  } catch (e) {
+    console.error("Payment error: ", e);
     res.status(500).json({ success: false, message: "Payment failed" });
   }
 });
