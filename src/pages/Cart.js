@@ -69,7 +69,7 @@ const Cart = () => {
       //     ? `${serverUrl}:${serverPort}/pay`
       //     : "/pay";
       const url =
-        process.env.NODE_ENV === "development" ? `${serverUrl}/pay` : "/pay";
+        process.env.NODE_ENV === "development" ? `${serverUrl}` : "/pay";
 
       await axios.post(url, {
         amount: parseFloat(totalPrice) * 100,
