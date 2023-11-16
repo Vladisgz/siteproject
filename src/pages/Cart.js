@@ -27,8 +27,6 @@ import { BsInfoCircle } from "react-icons/bs";
 
 import { empty } from "../assets";
 
-console.log(process.env.NODE_ENV);
-
 const Cart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -58,16 +56,21 @@ const Cart = () => {
 
   const payment = async (token) => {
     try {
-      const serverPort = process.env.SERVER_PORT || 4004;
-      const serverUrl =
-        process.env.REACT_APP_SERVER_URL || `http://localhost:${serverPort}`;
+      // const serverPort = process.env.SERVER_PORT || 4004;
+      // const serverUrl =
+      //   process.env.REACT_APP_SERVER_URL || `http://localhost:${serverPort}`;
       // await axios.post("http://localhost:3003/pay", {
-      console.log(serverUrl);
+      // console.log(serverUrl);
 
+      const serverUrl = process.env.REACT_PP_SERVER_URL || "";
+
+      // const url =
+      //   process.env.NODE_ENV === "development"
+      //     ? `${serverUrl}:${serverPort}/pay`
+      //     : "/pay";
       const url =
-        process.env.NODE_ENV === "development"
-          ? `${serverUrl}:${serverPort}/pay`
-          : "api/pay";
+        process.env.NODE_ENV === "development" ? `${serverUrl}/pay` : "/pay";
+
       await axios.post(url, {
         amount: parseFloat(totalPrice) * 100,
         token: token,

@@ -9,6 +9,7 @@ import {
   ScrollRestoration,
 } from "react-router-dom";
 import Cart from "./pages/Cart";
+// import Cart from "./pages/Cart1";
 import { productsData, techsData } from "./api/Api";
 import Product from "./components/Product";
 import Shops from "./pages/Shops";

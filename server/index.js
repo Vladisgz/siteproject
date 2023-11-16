@@ -7,12 +7,12 @@ const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
 const Stripe = require("stripe")(stripeSecretKey);
 
 const cors = require("cors");
-// app.use(cors()); // локально
 
 app.use(
   cors({ origin: "https://siteproject-liard.vercel.app", credentials: true }),
 );
 
+// app.use(cors()); // локально
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -21,8 +21,8 @@ app.get("/", function (req, res) {
 });
 
 app.post("/pay", async (req, res) => {
-  console.log(req.body.token);
   try {
+    console.log(req.body.token);
     await Stripe.charges.create({
       source: req.body.token.id,
       amount: req.body.amount,
